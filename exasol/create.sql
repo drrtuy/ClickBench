@@ -1,5 +1,5 @@
 OPEN SCHEMA test;
---drop table hits;
+drop table hits;
 CREATE TABLE hits
 (
     WatchID BIGINT NOT NULL,

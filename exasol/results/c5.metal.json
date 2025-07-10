@@ -1,7 +1,7 @@
 {
     "system": "EXASOL 8.34.0",
     "date": "2025-07-10",
-    "machine": "c5metal",
+    "machine": "c5.metal",
     "cluster_size": 1,
     "proprietary": "yes",
     "tuned": "no",
@@ -9,8 +9,8 @@
 
     "tags": ["C++", "column-oriented", "Oracle compatible"],
 
-    "load_time": 10357,
-    "data_size": 124386147162,
+    "load_time": 916,
+    "data_size": 31531724800,
 
     "result": [
       [0.063, 0.013, 0.013],
