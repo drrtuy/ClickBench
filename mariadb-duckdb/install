@@ -24,7 +24,8 @@ sudo wget -q -O /etc/apt/sources.list.d/mariadb-duckdb-ci.sources "$CI_SOURCES_U
 
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    mariadb-server mariadb-client
+    mariadb-server=1:11.4.13+maria~ubu2404 mariadb-client=1:11.4.13+maria~ubu2404 \
+    mariadb-server-core=1:11.4.13+maria~ubu2404 mariadb-client-core=1:11.4.13+maria~ubu2404 mariadb-common=1:11.4.13+maria~ubu2404 
 
 # Configure the DuckDB storage engine plugin (from mariadb.org article defaults).
 sudo tee /etc/mysql/mariadb.conf.d/duckdb.cnf >/dev/null <<'EOF'
