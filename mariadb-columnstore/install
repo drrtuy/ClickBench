@@ -1,7 +1,26 @@
 #!/bin/bash
 set -eu
 
-sudo apt-get update -y
-sudo apt-get install -y docker.io mariadb-client
+sudo apt-get install -y apt-transport-https curl
 
-sudo docker pull mariadb/columnstore
+CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
+case "$CODENAME" in
+    noble|resolute) ;;
+    *) echo "Unsupported Ubuntu release: $CODENAME" >&2; exit 1 ;;
+esac
+
+sudo mkdir -p /etc/apt/keyrings
+sudo curl -fsSL 'https://mariadb.org/mariadb_release_signing_key.asc' \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/mariadb-keyring.gpg
+
+cat <<EOF | sudo tee /etc/apt/sources.list.d/mariadb.sources
+X-Repolib-Name: MariaDB
+Types: deb
+URIs: https://deb.mariadb.org/11.8/ubuntu
+Suites: $CODENAME
+Components: main main/debug
+Signed-By: /etc/apt/keyrings/mariadb-keyring.gpg
+EOF
+
+sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server mariadb-plugin-columnstore

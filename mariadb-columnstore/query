@@ -6,12 +6,10 @@
 # Exit non-zero on error.
 set -e
 
-PASSWORD=${MCS_PASSWORD:-tsFgm457%3cj}
 query=$(cat)
 
 # -vvv makes mariadb echo "N rows in set (T sec)" for every statement.
-raw=$(mariadb --skip-ssl --password="$PASSWORD" --host 127.0.0.1 -vvv \
-    clickbench -e "$query" 2>&1) && exit_code=0 || exit_code=$?
+raw=$(sudo mariadb -vvv clickbench -e "$query" 2>&1) && exit_code=0 || exit_code=$?
 
 if [ "$exit_code" -ne 0 ] || printf '%s\n' "$raw" | grep -qE '^ERROR\b'; then
     printf '%s\n' "$raw" >&2
@@ -39,3 +37,5 @@ BEGIN {
     if (n >= 4 && a[2] == "min") { printf "%.3f\n", a[1] * 60 + a[3] }
     else if (n >= 2)             { printf "%.3f\n", a[1] }
 }' >&2
+
+sleep 5

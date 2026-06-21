@@ -1,4 +1,3 @@
 #!/bin/bash
 set -e
-PASSWORD=${MCS_PASSWORD:-tsFgm457%3cj}
-mariadb --skip-ssl --password="$PASSWORD" --host 127.0.0.1 -e 'SELECT 1' >/dev/null
+sudo mariadb -e 'SELECT 1' >/dev/null

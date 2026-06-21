@@ -1,8 +1,7 @@
 #!/bin/bash
 set -eu
 
-PASSWORD=${MCS_PASSWORD:-tsFgm457%3cj}
-MARIADB="mariadb --skip-ssl --password=$PASSWORD --host 127.0.0.1"
+MARIADB="sudo mariadb"
 
 # Recreate the database + table from a known-empty state.
 $MARIADB -e "DROP DATABASE IF EXISTS clickbench"
@@ -14,9 +13,7 @@ $MARIADB clickbench < create.sql
 # couldn't keep up with a 75 GB dataset, and would die mid-stream
 # with the cryptic "Internal error < 0 (Not system error) from
 # storage engine ColumnStore" documented in this entry's README.
-# cpimport bulk-imports column-stripe-natively and accepts STDIN, so
-# we can pipe the host-side hits.tsv straight in without docker cp.
-sudo docker exec -i mcs1 cpimport clickbench hits -s '\t' < hits.tsv
+sudo cpimport clickbench hits -s '\t' < hits.tsv
 
-rm -f hits.tsv
+#rm -f hits.tsv
 sync
