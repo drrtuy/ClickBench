@@ -20,23 +20,23 @@ if dpkg -l | grep -qE '^ii\s+(mariadb-server|mysql-server)'; then
 fi
 
 # Add MariaDB CI build as apt source (Trusted: yes — unsigned CI packages, testing only).
-sudo wget -q -O /etc/apt/sources.list.d/mariadb-duckdb-ci.sources "$CI_SOURCES_URL"
+#sudo wget -q -O /etc/apt/sources.list.d/mariadb-duckdb-ci.sources "$CI_SOURCES_URL"
 
-sudo apt-get update -y
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    mariadb-server=1:11.4.13+maria~ubu2404 mariadb-client=1:11.4.13+maria~ubu2404 \
-    mariadb-server-core=1:11.4.13+maria~ubu2404 mariadb-client-core=1:11.4.13+maria~ubu2404 mariadb-common=1:11.4.13+maria~ubu2404 
+#sudo apt-get update -y
+#sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#    mariadb-server=1:11.4.13+maria~ubu2404 mariadb-client=1:11.4.13+maria~ubu2404 \
+#    mariadb-server-core=1:11.4.13+maria~ubu2404 mariadb-client-core=1:11.4.13+maria~ubu2404 mariadb-common=1:11.4.13+maria~ubu2404 
 
 # Configure the DuckDB storage engine plugin (from mariadb.org article defaults).
-sudo tee /etc/mysql/mariadb.conf.d/duckdb.cnf >/dev/null <<'EOF'
-[mysqld]
-plugin-maturity=alpha
-plugin-load-add=ha_duckdb.so
-duckdb-memory-limit=24G
-EOF
+#sudo tee /etc/mysql/mariadb.conf.d/duckdb.cnf >/dev/null <<'EOF'
+#[mysqld]
+#plugin-maturity=alpha
+#plugin-load-add=ha_duckdb.so
+#duckdb-memory-limit=24G
+#EOF
 
-sudo systemctl enable mariadb
-sudo systemctl restart mariadb
+#sudo systemctl enable mariadb
+#sudo systemctl restart mariadb
 
 # Smoke-test: DuckDB plugin must be ACTIVE.
 sudo mariadb -e "SELECT PLUGIN_STATUS FROM information_schema.PLUGINS WHERE PLUGIN_NAME='DuckDB';" \
